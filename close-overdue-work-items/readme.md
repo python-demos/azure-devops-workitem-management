@@ -8,6 +8,8 @@
 - Run the close-overdue-workitems.py file.
 
 # Things to take care
+
+- Min Python version - Tested using 3.8.5. There are no information about what is the miminum version required for azure-devops package.
 - By default it closes only 2 work items. If you want to close more items change the number 2 in the below line of close-overdue-workitems.py file
   - `get_overdue_workitems(connection,2)`
 - wiutils.py
