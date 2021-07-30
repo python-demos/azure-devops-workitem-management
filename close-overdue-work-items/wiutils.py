@@ -61,7 +61,7 @@ def get_overdue_workitems(connection,limit=30):
     """Get overdue work items (tasks only) based on OpportunityPipeline.ActualEndDate. Its a custom field. Replace with right value based on environment 
     Args:
         connection : azure.devops.connection
-            The sound the animal makes (default is None)
+            Connection to ADO
         limit : int, optional
             Number of items to fetch. Default to 30
     """
