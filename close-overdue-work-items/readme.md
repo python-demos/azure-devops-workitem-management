@@ -2,10 +2,10 @@
 - Clone
 - Make sure the azure-devops is installed use the below command to install
   - `pip install azure-devops`
-- close-overdue-workitems.py
-  - Replace the <PAT> token
-  - Replace the <organization> token
-- Run the close-overdue-workitems.py file.
+- config.py
+  - Replace the <YOUR PAT> token
+  - Replace the <YOUR ORGANIZATION> token
+- Run the close-overdue-workitems.py or activate-new-workitems.py
 
 # Things to take care
 
