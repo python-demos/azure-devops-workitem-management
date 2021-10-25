@@ -12,7 +12,6 @@ credentials = BasicAuthentication('', config.personal_access_token)
 connection = Connection(base_url=config.organization_url, creds=credentials)
 
 # Get work items and close
-wis = get_nonactivated_workitems(connection,6)
+wis = get_nonactivated_workitems(connection,8)
 #print_work_items(wis)
 activate_work_items(connection,wis)
-print (config.DATABASE)

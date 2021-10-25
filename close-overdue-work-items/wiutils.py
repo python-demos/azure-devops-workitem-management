@@ -114,11 +114,11 @@ def get_nonactivated_workitems(connection,limit=30):
             [System.IterationPath],
             [OpportunityPipeline.ActualEndDate]
         from WorkItems
-        where [System.WorkItemType] = 'Task'
+        where ([System.WorkItemType] = 'Task' OR [System.WorkItemType] = 'User Story')
             AND [System.State] = 'New'
             AND [System.AssignedTo] = @Me
             AND [OpportunityPipeline.ActualStartDate] < @Today
-            AND [OpportunityPipeline.ActualEndDate] > @Today
+            AND [OpportunityPipeline.ActualEndDate] >= @Today
         order by [System.ChangedDate] desc"""
     )
     wiql_results = wit_client.query_by_wiql(wiql, top=limit).work_items
