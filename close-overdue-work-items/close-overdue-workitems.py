@@ -12,6 +12,6 @@ credentials = BasicAuthentication('', config.personal_access_token)
 connection = Connection(base_url=config.organization_url, creds=credentials)
 
 # Get work items and close
-wis = get_overdue_workitems(connection,3)
+wis = get_overdue_workitems(connection,8)
 #print_work_items(wis)
 close_work_items(connection,wis)

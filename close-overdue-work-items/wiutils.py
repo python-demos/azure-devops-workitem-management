@@ -117,7 +117,7 @@ def get_nonactivated_workitems(connection,limit=30):
         where ([System.WorkItemType] = 'Task' OR [System.WorkItemType] = 'User Story')
             AND [System.State] = 'New'
             AND [System.AssignedTo] = @Me
-            AND [OpportunityPipeline.ActualStartDate] < @Today
+            AND [OpportunityPipeline.ActualStartDate] <= @Today
             AND [OpportunityPipeline.ActualEndDate] >= @Today
         order by [System.ChangedDate] desc"""
     )
