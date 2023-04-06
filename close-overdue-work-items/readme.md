@@ -4,8 +4,8 @@
   - `pip install azure-devops`
   - `pip install python-dateutil`
 - config.py
-  - Replace the <YOUR PAT> token
-  - Replace the <YOUR ORGANIZATION> token
+  - Replace the `<YOUR PAT>` token
+  - Replace the `<YOUR ORGANIZATION>` token
 - Run the close-overdue-workitems.py or activate-new-workitems.py
 
 # Things to take care
