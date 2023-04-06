@@ -2,6 +2,7 @@
 - Clone
 - Make sure the azure-devops is installed use the below command to install
   - `pip install azure-devops`
+  - `pip install python-dateutil`
 - config.py
   - Replace the <YOUR PAT> token
   - Replace the <YOUR ORGANIZATION> token
