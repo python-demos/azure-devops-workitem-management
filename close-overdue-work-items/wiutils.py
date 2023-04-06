@@ -57,6 +57,16 @@ def activate_work_items(connection,wis):
 #endregion
 
 #region get
+def workitemids_to_workitems(wit_client,wiql_results):
+    emit("{0} - Results: {1}".format(workitemids_to_workitems.__name__, len(wiql_results)))
+    if wiql_results:
+        # WIQL query gives a WorkItemReference with ID only, get the corresponding WorkItem from id using additional calls
+        work_items = (
+            wit_client.get_work_item(int(res.id)) for res in wiql_results
+        )
+        return work_items
+    else:
+        return []
 def get_new_active_workitems(connection, limit=30):
     """Get new and active work items
     Args:
@@ -68,12 +78,7 @@ def get_new_active_workitems(connection, limit=30):
     wit_client = connection.clients.get_work_item_tracking_client()
     wiql = Wiql(
         query="""
-        select [System.Id],
-            [System.WorkItemType],
-            [System.Title],
-            [System.State],
-            [System.AreaPath],
-            [System.IterationPath]
+        select [System.Id]
         from WorkItems
         where [System.WorkItemType] = 'Task'
             AND [System.State] <> 'Closed'
@@ -82,16 +87,7 @@ def get_new_active_workitems(connection, limit=30):
         order by [System.ChangedDate] desc"""
     )
     wiql_results = wit_client.query_by_wiql(wiql, top=limit).work_items
-    emit("{0} - Results: {1}".format(get_new_active_workitems.__name__, len(wiql_results)))
-    if wiql_results:
-        # WIQL query gives a WorkItemReference with ID only
-        # => we get the corresponding WorkItem from id using additional calls
-        work_items = (
-            wit_client.get_work_item(int(res.id)) for res in wiql_results
-        )
-        return work_items
-    else:
-        return []
+    return workitemids_to_workitems(wit_client,wiql_results)
 
 def get_overdue_workitems(connection,limit=30):
     """Get overdue work items (tasks only) based on OpportunityPipeline.ActualEndDate. Its a custom field. Replace with right value based on environment 
@@ -142,13 +138,7 @@ def get_nonactivated_workitems(connection,limit=30):
     wit_client = connection.clients.get_work_item_tracking_client()
     wiql = Wiql(
         query="""
-        select [System.Id],
-            [System.WorkItemType],
-            [System.Title],
-            [System.State],
-            [System.AreaPath],
-            [System.IterationPath],
-            [OpportunityPipeline.ActualEndDate]
+        select [System.Id]
         from WorkItems
         where ([System.WorkItemType] = 'Task' OR [System.WorkItemType] = 'User Story')
             AND [System.State] = 'New'
@@ -159,13 +149,5 @@ def get_nonactivated_workitems(connection,limit=30):
     )
     wiql_results = wit_client.query_by_wiql(wiql, top=limit).work_items
     emit("Results: {0}".format(len(wiql_results)))
-    if wiql_results:
-        # WIQL query gives a WorkItemReference with ID only
-        # => we get the corresponding WorkItem from id using additional calls
-        work_items = (
-            wit_client.get_work_item(int(res.id)) for res in wiql_results
-        )
-        return work_items
-    else:
-        return []
+    return workitemids_to_workitems(wit_client,wiql_results)
 #endregion
