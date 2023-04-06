@@ -1,7 +1,7 @@
 from utils import emit
 from azure.devops.v6_0.work_item_tracking.models import Wiql
 from azure.devops.v6_0.work_item_tracking.models import JsonPatchOperation
-
+import re
 #region print to console
 
 def print_work_items(work_items):
@@ -57,6 +57,42 @@ def activate_work_items(connection,wis):
 #endregion
 
 #region get
+def get_new_active_workitems(connection, limit=30):
+    """Get new and active work items
+    Args:
+        connection : azure.devops.connection
+            Connection to ADO
+        limit : int, optional
+            Number of items to fetch. Default to 30
+    """
+    wit_client = connection.clients.get_work_item_tracking_client()
+    wiql = Wiql(
+        query="""
+        select [System.Id],
+            [System.WorkItemType],
+            [System.Title],
+            [System.State],
+            [System.AreaPath],
+            [System.IterationPath]
+        from WorkItems
+        where [System.WorkItemType] = 'Task'
+            AND [System.State] <> 'Closed'
+            AND [System.State] <> 'Removed'
+            AND [System.AssignedTo] = @Me
+        order by [System.ChangedDate] desc"""
+    )
+    wiql_results = wit_client.query_by_wiql(wiql, top=limit).work_items
+    emit("{0} - Results: {1}".format(get_new_active_workitems.__name__, len(wiql_results)))
+    if wiql_results:
+        # WIQL query gives a WorkItemReference with ID only
+        # => we get the corresponding WorkItem from id using additional calls
+        work_items = (
+            wit_client.get_work_item(int(res.id)) for res in wiql_results
+        )
+        return work_items
+    else:
+        return []
+
 def get_overdue_workitems(connection,limit=30):
     """Get overdue work items (tasks only) based on OpportunityPipeline.ActualEndDate. Its a custom field. Replace with right value based on environment 
     Args:
