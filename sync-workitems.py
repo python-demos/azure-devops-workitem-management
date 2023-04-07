@@ -1,13 +1,9 @@
 # Does the below actions
 # 1. Change the start and end dates to match with the dates in iteration path if iteraction path has date.
-from azure.devops.connection import Connection
-from msrest.authentication import BasicAuthentication
 from config import *
 from lib.wiutils import get_new_active_workitems,update_work_item
 import re
 from dateutil import parser
-credentials = BasicAuthentication('', config.personal_access_token)
-connection = Connection(base_url=config.organization_url, creds=credentials)
 
 def get_start_end_dates(iteractionPath):
     """Get start and end dates from iteraction path. This works only if the iteraction path has dates in specific format of dd-MMM-yy
@@ -34,6 +30,6 @@ def update_dates_if_outofsync(connection,wi):
     #TODO handle situations where the iteraction path is not available.
     update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualStartDate",iteractionStartDate)
     update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualEndDate",iteractionEndDate)
-
+connection = config.get_ado_connection()
 wis=get_new_active_workitems(connection,10)
 list(map(lambda wi:update_dates_if_outofsync(connection,wi), wis))
