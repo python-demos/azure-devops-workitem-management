@@ -1,4 +1,4 @@
-from utils import emit
+from lib.utils import emit
 from azure.devops.v6_0.work_item_tracking.models import Wiql
 from azure.devops.v6_0.work_item_tracking.models import JsonPatchOperation
 import re

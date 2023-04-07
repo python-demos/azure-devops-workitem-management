@@ -3,7 +3,7 @@
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 from config import *
-from wiutils import get_new_active_workitems,update_work_item
+from lib.wiutils import get_new_active_workitems,update_work_item
 import re
 from dateutil import parser
 credentials = BasicAuthentication('', config.personal_access_token)
