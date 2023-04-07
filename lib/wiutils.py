@@ -100,13 +100,7 @@ def get_overdue_workitems(connection,limit=30):
     wit_client = connection.clients.get_work_item_tracking_client()
     wiql = Wiql(
         query="""
-        select [System.Id],
-            [System.WorkItemType],
-            [System.Title],
-            [System.State],
-            [System.AreaPath],
-            [System.IterationPath],
-            [OpportunityPipeline.ActualEndDate]
+        select [System.Id]
         from WorkItems
         where [System.WorkItemType] = 'Task'
             AND [System.State] <> 'Closed'

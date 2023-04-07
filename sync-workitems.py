@@ -30,6 +30,7 @@ def update_dates_if_outofsync(connection,wi):
     #TODO handle situations where the iteraction path is not available.
     update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualStartDate",iteractionStartDate)
     update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualEndDate",iteractionEndDate)
+
 connection = config.get_ado_connection()
 wis=get_new_active_workitems(connection,10)
 list(map(lambda wi:update_dates_if_outofsync(connection,wi), wis))
