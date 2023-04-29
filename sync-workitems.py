@@ -8,7 +8,7 @@ from dateutil import parser
 def get_start_end_dates(iteractionPath):
     """Get start and end dates from iteraction path. This works only if the iteraction path has dates in specific format of dd-MMM-yy
     """
-    dates = re.findall(r'\d{2}-\w{3}-\d{2}',iteractionPath)
+    dates = re.findall(r'[0-9]+-\w{3}-\d{2}',iteractionPath)
     iteractionStartDateStr= dates[0]
     iteractionStartDate = parser.parse(iteractionStartDateStr)
     iteractionEndDateStr= dates[1]
