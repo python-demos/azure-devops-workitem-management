@@ -10,9 +10,11 @@ Demos for managing Azure DevOps Work items.
 - Make sure the azure-devops is installed use the below command to install
   - `pip install azure-devops`
   - `pip install python-dateutil`
-- In config.py
-  - Replace the <YOUR PAT> token
-  - Replace the <YOUR ORGANIZATION> token
+  - `pip install python-dotenv`
+- Environment variables (Choose any one method)
+  - Add [.env file](https://pypi.org/project/python-dotenv/)
+    - Add `personal_access_token` and `organization_url` keys with respective values.
+  - Set the environmet variable with the same above keys using the operatign system methods
 - Run any of the below python files
     - `close-overdue-workitems.py`
     - `activate-new-workitems.py`

@@ -19,9 +19,9 @@ def update_date_ifnot_same(connection,wi,dateField,correctDate):
     existingDateStr = wi.fields[dateField]
     existingDate = parser.parse(existingDateStr)
     if existingDate.date() == correctDate.date():
-        print("workitem {0} - existingdate[{1}] = {2} is same as givendate {3} ".format(wi.id,dateField, existingDate,correctDate))
+        print("{0} : workitem {1} - existingdate[{2}] = {3} is same as givendate {4}".format(update_date_ifnot_same.__name__,wi.id,dateField, existingDate,correctDate))
     else:
-        print("workitem {0} - existingdate[{1}] ={2} not same as givendate{3}. Updating...".format(wi.id,dateField,existingDate,correctDate))
+        print("{5} : workitem {0} - existingdate[{1}] ={2} not same as givendate{3}. Updating...".format(__name__,wi.id,dateField,existingDate,correctDate,update_date_ifnot_same.__name__))
         update_work_item(connection,wi,dateField,correctDate)
 
 def update_dates_if_outofsync(connection,wi):
