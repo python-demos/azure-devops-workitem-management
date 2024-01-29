@@ -1,6 +1,6 @@
 from lib.utils import emit
-from azure.devops.v6_0.work_item_tracking.models import Wiql
-from azure.devops.v6_0.work_item_tracking.models import JsonPatchOperation
+from azure.devops.v7_1.work_item_tracking.models import Wiql
+from azure.devops.v7_1.work_item_tracking.models import JsonPatchOperation
 import re
 #region print to console
 

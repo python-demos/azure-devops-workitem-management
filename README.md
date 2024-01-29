@@ -8,7 +8,8 @@ Demos for managing Azure DevOps Work items.
 
 - Clone
 - Make sure the azure-devops is installed use the below command to install
-  - `pip install azure-devops`
+  - `pip install azure-devops==7.1.0b4`
+    - The version is important as the import has the version in it.
   - `pip install python-dateutil`
   - `pip install python-dotenv`
 - Environment variables (Choose any one method)
