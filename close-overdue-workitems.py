@@ -4,5 +4,5 @@ from config import *
 connection = config.get_ado_connection()
 
 # Get work items and close
-wis = get_overdue_workitems(connection,8)
+wis = get_overdue_workitems(connection,10)
 close_work_items(connection,wis)

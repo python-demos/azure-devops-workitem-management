@@ -9,10 +9,10 @@ def get_start_end_dates(iteractionPath):
     """Get start and end dates from iteraction path. This works only if the iteraction path has dates in specific format of dd-MMM-yy
     """
     dates = re.findall(r'[0-9]+-\w{3}-\d{2}',iteractionPath)
-    iteractionStartDateStr= dates[0]
-    iteractionStartDate = parser.parse(iteractionStartDateStr)
-    iteractionEndDateStr= dates[1]
-    iteractionEndDate = parser.parse(iteractionEndDateStr)
+    iteractionStartDateStr= dates[0] if len(dates) == 2 else None
+    iteractionStartDate = parser.parse(iteractionStartDateStr) if iteractionStartDateStr !=None else None
+    iteractionEndDateStr= dates[1] if len(dates)==2 else None
+    iteractionEndDate = parser.parse(iteractionEndDateStr) if iteractionEndDateStr != None else None
     return iteractionStartDate, iteractionEndDate
 
 def update_date_ifnot_same(connection,wi,dateField,correctDate):
@@ -28,8 +28,10 @@ def update_dates_if_outofsync(connection,wi):
     iteractionPath =  wi.fields["System.IterationPath"]
     iteractionStartDate, iteractionEndDate = get_start_end_dates(iteractionPath)
     #TODO handle situations where the iteraction path is not available.
-    update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualStartDate",iteractionStartDate)
-    update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualEndDate",iteractionEndDate)
+    if iteractionStartDate != None:
+        update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualStartDate",iteractionStartDate)
+    if iteractionEndDate !=None:
+        update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualEndDate",iteractionEndDate)
 
 connection = config.get_ado_connection()
 

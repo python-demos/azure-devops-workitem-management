@@ -1,6 +1,7 @@
 from lib.utils import emit
 from azure.devops.v7_1.work_item_tracking.models import Wiql
 from azure.devops.v7_1.work_item_tracking.models import JsonPatchOperation
+from azure.devops.exceptions import AzureDevOpsServiceError
 import re
 #region print to console
 
@@ -37,7 +38,12 @@ def update_work_item(connection,wi,idx,value):
 #region close
 def close_work_item(connection,wi):
     emit(f"Closing workitem {wi.id}")
-    update_work_item(connection,wi,'System.State','Closed')
+    try:
+        update_work_item(connection,wi,'System.State','Closed')
+    except AzureDevOpsServiceError as ex:
+        print(f"** Error:{ex}")
+    except:
+        print("** Error unknown")
 
 def close_work_items(connection,wis):
     """Close work items"""
