@@ -16,9 +16,13 @@ def get_start_end_dates(iteractionPath):
     return iteractionStartDate, iteractionEndDate
 
 def update_date_ifnot_same(connection,wi,dateField,correctDate):
-    existingDateStr = wi.fields[dateField]
-    existingDate = parser.parse(existingDateStr)
-    if existingDate.date() == correctDate.date():
+    if dateField in wi.fields.keys():
+        existingDateStr = wi.fields[dateField]
+        existingDate = parser.parse(existingDateStr)
+    if 'existingDate' not in locals():
+        print("{3} : workitem {0} - existingdate{1} is empty. givendate{2}. Updating...".format(__name__,wi.id,dateField,correctDate,update_date_ifnot_same.__name__))
+        update_work_item(connection,wi,dateField,correctDate)
+    elif existingDate.date() == correctDate.date():
         print("{0} : workitem {1} - existingdate[{2}] = {3} is same as givendate {4}".format(update_date_ifnot_same.__name__,wi.id,dateField, existingDate,correctDate))
     else:
         print("{5} : workitem {0} - existingdate[{1}] ={2} not same as givendate{3}. Updating...".format(__name__,wi.id,dateField,existingDate,correctDate,update_date_ifnot_same.__name__))

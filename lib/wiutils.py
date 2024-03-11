@@ -31,7 +31,7 @@ def update_work_item(connection,wi,idx,value):
                 ]
     wit_client = connection.clients.get_work_item_tracking_client()
     wit_client.update_work_item(patch_document,wi.id)
-    emit("Updated {0} - ActualEndDate:{1} Field:{2},NewValue:{3}".format(wi.id,wi.fields["OpportunityPipeline.ActualEndDate"], idx,value))
+    emit("Updated {0} - Field:{1},NewValue:{2}".format(wi.id, idx,value))
 
 #endregion
 
