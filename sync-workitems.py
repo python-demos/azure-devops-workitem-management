@@ -1,14 +1,18 @@
 # Does the below actions
-# 1. Change the start and end dates to match with the dates in iteration path if iteraction path has date.
+# 1. Change the start and end dates to match with the dates in iteration path if iteration path has date.
 from config import *
 from lib.wiutils import get_new_active_workitems,update_work_item
+from lib.wcutils import get_iterations, get_all_iterations_project,list_iterations_for_all_teams
 import re
 from dateutil import parser
 
 def get_start_end_dates(iteractionPath):
-    """Get start and end dates from iteraction path. This works only if the iteraction path has dates in specific format of dd-MMM-yy
+    """Get start and end dates from iteraction path. This works only if the iteraction path has dates in specific format of dd-MMM-yy or dd-MMM-yyyy. 
+    If the date is not in this format, it will return None
     """
-    dates = re.findall(r'[0-9]+-\w{3}-\d{2}',iteractionPath)
+    dates = re.findall(r'[0-9]+-\w{3}-\d{4}',iteractionPath)
+    if(len(dates)==0):
+        dates = re.findall(r'[0-9]+-\w{3}-\d{2}',iteractionPath)
     iteractionStartDateStr= dates[0] if len(dates) == 2 else None
     iteractionStartDate = parser.parse(iteractionStartDateStr) if iteractionStartDateStr !=None else None
     iteractionEndDateStr= dates[1] if len(dates)==2 else None
@@ -38,6 +42,8 @@ def update_dates_if_outofsync(connection,wi):
         update_date_ifnot_same(connection,wi,"OpportunityPipeline.ActualEndDate",iteractionEndDate)
 
 connection = config.get_ado_connection()
-
 wis=get_new_active_workitems(connection,20)
+#list_iterations_for_all_teams(connection=connection, project_name="KPMG-Clara")
+#get_all_iterations_project(connection=connection,project_name="KPMG-Clara")
+#get_iterations(connection, team_name=None, project_name="KPMG-Clara")
 list(map(lambda wi:update_dates_if_outofsync(connection,wi), wis))

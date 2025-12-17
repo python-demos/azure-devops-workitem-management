@@ -1,3 +1,4 @@
+
 # Azure DevOps Workitems Management
 
 Demos for managing Azure DevOps Work items.
@@ -20,6 +21,27 @@ Demos for managing Azure DevOps Work items.
     - `close-overdue-workitems.py`
     - `activate-new-workitems.py`
     - `sync-workitems.py` - change the Start and end dates of tasks to match the start and end dates on iteraction path
+
+## Virtual Environment (Windows PowerShell)
+
+- Create and activate venv, then install deps:
+
+```
+pwsh -File .\setup_venv.ps1
+```
+
+- Later, activate venv:
+
+```
+. .\.venv\Scripts\Activate.ps1
+```
+
+- Run scripts inside venv:
+
+```
+python .\sync-workitems.py
+```
+
 
 # Things to take care
 

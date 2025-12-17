@@ -1,5 +1,5 @@
 from lib.utils import emit
-from azure.devops.v7_1.work_item_tracking.models import Wiql
+from azure.devops.v7_1.work_item_tracking.models import Wiql,TeamContext
 from azure.devops.v7_1.work_item_tracking.models import JsonPatchOperation
 from azure.devops.exceptions import AzureDevOpsServiceError
 import re
@@ -10,7 +10,7 @@ def print_work_items(work_items):
 
 def print_work_item(work_item):
     emit(
-        "{0} {1}: {2} : {3} - {4}".format(
+        "{0} {1}, Actual EndDate:{2}, {3} - {4}".format(
             work_item.fields["System.WorkItemType"],
             work_item.id,
             work_item.fields["OpportunityPipeline.ActualEndDate"],
@@ -113,7 +113,7 @@ def get_overdue_workitems(connection,limit=30):
             AND [System.State] <> 'Removed'
             AND [System.AssignedTo] = @Me
             AND [OpportunityPipeline.ActualEndDate] < @Today
-        order by [System.ChangedDate] desc"""
+        order by [OpportunityPipeline.ActualEndDate] asc"""
     )
     wiql_results = wit_client.query_by_wiql(wiql, top=limit).work_items
     emit("Results: {0}".format(len(wiql_results)))
@@ -151,3 +151,4 @@ def get_nonactivated_workitems(connection,limit=30):
     emit("Results: {0}".format(len(wiql_results)))
     return workitemids_to_workitems(wit_client,wiql_results)
 #endregion
+
